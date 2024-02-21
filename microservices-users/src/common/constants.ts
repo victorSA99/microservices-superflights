@@ -1,7 +1,5 @@
 export enum RabbitMQ {
   UserQueue = 'users',
-  PassengerQueue = 'passengers',
-  FligthQueue = 'fligths',
 }
 
 export enum UserMSG {

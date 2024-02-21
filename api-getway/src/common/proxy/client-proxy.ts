@@ -6,6 +6,7 @@ import {
   Transport,
 } from '@nestjs/microservices';
 import { RabbitMQ } from '../constants';
+
 @Injectable()
 export class ClientProxySuperFlights {
   constructor(private readonly config: ConfigService) {}
@@ -26,15 +27,6 @@ export class ClientProxySuperFlights {
       options: {
         urls: this.config.get('AMQP_URL'),
         queue: RabbitMQ.PassengerQueue,
-      },
-    });
-  }
-  clientProxyFligths(): ClientProxy {
-    return ClientProxyFactory.create({
-      transport: Transport.RMQ,
-      options: {
-        urls: this.config.get('AMQP_URL'),
-        queue: RabbitMQ.FligthQueue,
       },
     });
   }
