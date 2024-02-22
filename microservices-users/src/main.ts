@@ -12,5 +12,6 @@ async function bootstrap() {
     },
   });
   await app.listen();
+  console.log('Microservice Users is listening');
 }
 bootstrap();
