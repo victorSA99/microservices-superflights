@@ -2,8 +2,11 @@ version: '3.7'
 
 services:
     app:
-      image: victor990521/app_vuelos:v2
+      image: app_vuelos:v2
       container_name: app_vuelos
+      build:
+        context: ./api-getway
+        dockerfile: Dockerfile
       env_file: .env
       ports:
         - 80:3000
@@ -15,8 +18,11 @@ services:
         - ms_nestjs
 
     microservices-fligths:
-          image: victor990521/microservices-fligths:v2
+          image: microservices-fligths:v2
           container_name: microservices-fligths
+          build:
+            context: ./microservices-fligths
+            dockerfile: Dockerfile
           env_file: .env
           depends_on:
             - mongodb
@@ -26,8 +32,11 @@ services:
             - ms_nestjs
 
     microservices-passengers:
-          image: victor990521/microservices-passengers:v2
+          image: microservices-passengers:v2
           container_name: microservices-passengers
+          build:
+            context: ./microservices-passengers
+            dockerfile: Dockerfile
           env_file: .env
           depends_on:
             - mongodb
@@ -37,8 +46,11 @@ services:
             - ms_nestjs
 
     microservices-users:
-          image: victor990521/microservices-users:v2
+          image: microservices-users:v2
           container_name: microservices-users
+          build:
+            context: ./microservices-users
+            dockerfile: Dockerfile
           env_file: .env
           depends_on:
             - mongodb
