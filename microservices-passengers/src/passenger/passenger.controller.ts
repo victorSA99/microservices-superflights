@@ -1,38 +1,32 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Post,
-  Param,
-  Put,
-  Delete,
-} from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { PassengerDto } from './dto/passenger.dto';
 import { PassengerService } from './passenger.service';
+import { MessagePattern, Payload } from '@nestjs/microservices';
+import { PassengerMSG } from 'src/common/constants';
 
 @Controller('api/v1/passenger')
 export class PassengerController {
   constructor(private readonly passengerService: PassengerService) {}
 
-  @Post()
-  create(@Body() passengerDto: PassengerDto) {
+  @MessagePattern(PassengerMSG.CREATE)
+  create(@Payload() passengerDto: PassengerDto) {
     return this.passengerService.create(passengerDto);
   }
-  @Get()
+  @MessagePattern(PassengerMSG.FIND_ALL)
   findAll() {
     return this.passengerService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
+  @MessagePattern(PassengerMSG.FIND_ONE)
+  findOne(@Payload() id: string) {
     return this.passengerService.findOne(id);
   }
-  @Put(':id')
-  Update(@Param('id') id: string, @Body() PassengerDto: PassengerDto) {
-    return this.passengerService.update(id, PassengerDto);
+  @MessagePattern(PassengerMSG.UPDATE)
+  Update(@Payload() PayLoad) {
+    return this.passengerService.update(PayLoad.id, PayLoad.PassengerDto);
   }
-  @Delete(':id')
-  delete(@Param('id') id: string) {
+  @MessagePattern(PassengerMSG.DELETE)
+  delete(@Payload() id: string) {
     return this.passengerService.delete(id);
   }
 }
