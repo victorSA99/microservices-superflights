@@ -8,6 +8,7 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { FligthMSG, PassengerMSG } from 'src/common/constants';
@@ -15,13 +16,16 @@ import { IFlight } from 'src/common/interfaces/flight.interface';
 import { ClientProxySuperFlights } from 'src/common/proxy/client-proxy';
 import { FligthDTO } from './dto/flight.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
-@ApiTags('fligths')
-@Controller('fligth')
+@ApiTags('api/v2/fligth')
+@UseGuards(JwtAuthGuard)
+@Controller('api/v2/fligth')
 export class FligthController {
   constructor(private readonly clientProxy: ClientProxySuperFlights) {}
   private _clientProxyFligth = this.clientProxy.clientProxyPassengers();
   private _clientProxyPassenger = this.clientProxy.clientProxyPassengers();
+
   @Post()
   create(@Body() fligthDto: FligthDTO): Observable<IFlight> {
     return this._clientProxyFligth.send(FligthMSG.CREATE, fligthDto);
